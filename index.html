@@ -711,7 +711,7 @@
                 <div class="card">
                     <div class="section-label">section 4 · mini game</div>
                     <h2>🎲 小遊戲：猜猜看 1～10</h2>
-                    <p>YoYo 心裡想一個 1～10 的數字，媽媽來猜猜看是幾號！</p>
+                    <p>媽媽猜猜看妹妹選的是幾號！</p>
                     <div class="game-input">
                         <input id="guessInput" type="number" min="1" max="10" placeholder="1–10" />
                         <button class="btn" onclick="checkGuess()">送出答案</button>
@@ -727,18 +727,17 @@
             <div class="container">
                 <div class="card">
                     <div class="section-label">section 5 · python basics</div>
-                    <h2>📘 給媽媽的 Python 入門小抄</h2>
-                    <p>這裡不是要考試，只是要讓妳大概有個印象。以後如果想學，我可以陪妳慢慢看。</p>
-
+                    <h2>📘 媽媽的 Python 入門小抄</h2>
+                    
                     <ul class="lesson-list">
                         <li>
                             <strong>1. 印出一句話：<code>print()</code></strong><br />
-                            例：<code>print("媽媽今天好勇敢")</code><br />
+                            例：<code>print("媽媽生日快樂")</code><br />
                             電腦就會把括號裡的字顯示出來。
                         </li>
                         <li>
                             <strong>2. 存一個小資料：變數</strong><br />
-                            例：<code>name = "Mom"</code><br />
+                            例：<code>name = "Mum"</code><br />
                             之後可以用 <code>print(name)</code> 把它叫出來。
                         </li>
                         <li>
@@ -750,8 +749,8 @@
                             <strong>4. 做決定：<code>if</code></strong><br />
                             例：<br />
                             <code>
-                                if feeling == "累":<br />
-                                &nbsp;&nbsp;print("那就休息一下再出發～")
+                                if feeling == "開心":<br />
+                                &nbsp;&nbsp;print("那就吃個布丁～")
                             </code>
                         </li>
                         <li>
@@ -774,7 +773,7 @@
                 <div class="card">
                     <div class="section-label">section 6 · little diary</div>
                     <h2>📝 媽媽的小日記</h2>
-                    <p>如果妳願意，可以在這裡隨便寫寫今天的心情、想到的事，只有這台裝置的瀏覽器會知道。</p>
+                    <p>哈囉媽媽 chatgpt說這裡可以寫日記 只有這台裝置的瀏覽器會知道。</p>
                     <textarea id="diaryText" class="diary-textarea" placeholder="今天想對自己說什麼呢？"></textarea>
                     <div class="diary-hint">
                         這些內容會保存在這台裝置的瀏覽器裡（localStorage），不會傳到任何地方。<br />
@@ -794,22 +793,12 @@
             <div class="container">
                 <div class="card">
                     <div class="section-label">section 7 · from yoyo</div>
-                    <h2>❤️ YoYo 想對媽媽說</h2>
-                    <p>
-                        （👉 這一段妳可以自己改成真正想跟媽媽說的話。<br />
-                        直接在這個檔案裡修改文字，再重新上傳到 GitHub 就可以更新。）
-                    </p>
+                    <h2>❤️ 生日快樂</h2>
                     <p id="yoyoMessage">
                         媽媽，生日快樂！<br />
-                        雖然我現在人在英國、妳在台灣，但我每天都很常想到妳。<br />
-                        很謝謝妳願意嘗試新的東西、想學 Python、想照顧好自己的心和身體。<br /><br />
-                        這個小網站只是很小的一份禮物，代表我在這裡陪妳、支持妳。<br />
-                        妳可以慢慢來、不用跟別人比較、也不用對自己太嚴格。<br />
-                        無論妳現在心情是開心、疲累、焦慮還是難過，對我來說，妳都是世界上最重要的人之一。<br /><br />
-                        希望妳打開這個網站的時候，能感覺到一點點被擁抱的感覺。<br />
-                        我愛妳，也會繼續長大、變得更有力量，可以好好守護自己，也多陪妳。💗<br /><br />
+                        還沒想要寫什麼!!!!!<br />
                         Love,<br />
-                        YoYo
+                        Youling C
                     </p>
                 </div>
             </div>
@@ -842,18 +831,17 @@
             </div>
             <h3>🎉 媽媽生日快樂 🎉</h3>
             <p style="font-size:14px;color:#5a2b40;">
-                謝謝妳一直努力地生活、學習、照顧自己。<br />
-                打開這個小禮物的同時，也希望妳可以對自己更溫柔一點。💗
+                妹妹很快就回家找妳玩了<br />
+                倒數17天.....💗
             </p>
             <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; justify-content:center;">
-                <button class="btn-secondary" onclick="openYouTube()">🎼 播放音樂（開啟 YouTube）</button>
-                <button class="btn" onclick="toggleHiddenMessage()">💌 看 YoYo 的隱藏訊息</button>
+                <button class="btn-secondary" onclick="openYouTube()">🎼 播放生日音樂</button>
+                <button class="btn" onclick="toggleHiddenMessage()">💌 看小熊的隱藏訊息</button>
             </div>
             <div id="hiddenMessage" class="hidden-message">
-                YoYo：<br />
-                謝謝妳一直在，我也會努力成為一個讓妳可以放心依靠的大人。<br />
-                不管之後我在哪裡，都會記得今天這個生日、記得妳願意為自己過生活。<br />
-                希望有一天，我可以親手幫妳點真的生日蠟燭。🥹💖
+                小熊：<br />
+                祝奶奶生日快樂! 小熊很快就會家睡覺洗澡了<br />
+                不要太想念我! roarrrrrr💖<br />
             </div>
         </div>
     </div>
@@ -1144,6 +1132,7 @@ function makeOutput(text) {
     </script>
 </body>
 </html>
+
 
 
 
