@@ -9,18 +9,20 @@
             font-family: "Microsoft JhengHei", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(180deg, #ffe5f1, #fff7fb);
             color: #333;
+            overflow-x: hidden;
         }
 
         a {
             text-decoration: none;
             color: inherit;
+            cursor: pointer;
         }
 
         /* 頂部導覽列 */
         .navbar {
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 20;
             background: rgba(255, 240, 247, 0.9);
             backdrop-filter: blur(10px);
             display: flex;
@@ -33,12 +35,15 @@
         .navbar-title {
             font-weight: 700;
             color: #d63e7c;
+            font-size: 16px;
         }
 
         .nav-links {
             display: flex;
-            gap: 16px;
-            font-size: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 13px;
+            align-items: center;
         }
 
         .nav-links a {
@@ -50,9 +55,31 @@
             background: rgba(255, 133, 172, 0.25);
         }
 
-        /* 共用卡片樣式 */
+        .nav-surprise {
+            background: #ff82ac;
+            color: #fff;
+            box-shadow: 0 0 0 0 rgba(255,130,172,0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .nav-surprise:hover {
+            background: #ff6595;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255,130,172,0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(255,130,172,0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,130,172,0); }
+        }
+
+        /* 基本 layout */
         .section {
             padding: 40px 16px;
+            display: none; /* SPA: 一次只顯示一個 */
+        }
+
+        .section.active {
+            display: block;
         }
 
         .container {
@@ -73,21 +100,11 @@
             color: #d63e7c;
         }
 
-        h1 {
-            font-size: 28px;
-        }
+        h1 { font-size: 28px; }
+        h2 { font-size: 22px; }
+        h3 { font-size: 18px; }
 
-        h2 {
-            font-size: 22px;
-        }
-
-        h3 {
-            font-size: 18px;
-        }
-
-        p {
-            line-height: 1.6;
-        }
+        p { line-height: 1.6; }
 
         .btn {
             padding: 10px 18px;
@@ -113,7 +130,15 @@
             background: #ffd1e2;
         }
 
-        /* 首頁 Hero */
+        .section-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #c15a8e;
+            margin-bottom: 6px;
+        }
+
+        /* Hero 區塊 */
         .hero {
             display: flex;
             flex-wrap: wrap;
@@ -123,19 +148,6 @@
 
         .hero-text {
             flex: 1 1 260px;
-        }
-
-        .hero-photo {
-            flex: 0 0 220px;
-            text-align: center;
-        }
-
-        .hero-photo img {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 10px 24px rgba(0,0,0,0.20);
         }
 
         .tag {
@@ -156,13 +168,23 @@
             margin-top: 6px;
         }
 
-        /* 區塊小標籤 */
-        .section-label {
+        .hero-photo {
+            flex: 0 0 220px;
+            text-align: center;
+        }
+
+        .hero-photo img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.20);
+        }
+
+        .hero-note {
             font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #c15a8e;
-            margin-bottom: 6px;
+            margin-top: 8px;
+            color:#b15482;
         }
 
         /* 心情選項 */
@@ -193,6 +215,8 @@
             padding: 10px 14px;
             font-family: "Consolas", "Courier New", monospace;
             font-size: 13px;
+            max-height: 260px;
+            overflow-y: auto;
         }
 
         .terminal-header {
@@ -268,12 +292,204 @@
             font-size: 13px;
         }
 
-        /* 最後祝福 */
+        /* 小日記 */
+        .diary-textarea {
+            width: 100%;
+            min-height: 150px;
+            border-radius: 12px;
+            border: 1px solid #ffbad3;
+            padding: 10px;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .diary-hint {
+            font-size: 12px;
+            color: #b36a8c;
+            margin-top: 6px;
+        }
+
+        /* Footer */
         .footer-note {
             font-size: 13px;
             text-align: center;
             color: #b36a8c;
             padding: 20px 10px 30px;
+        }
+
+        /* 生日驚喜 Overlay */
+        .surprise-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 30;
+        }
+
+        .surprise-overlay.active {
+            display: flex;
+        }
+
+        .surprise-card {
+            background: #fff5fb;
+            border-radius: 24px;
+            padding: 24px;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .surprise-close {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            border: none;
+            background: transparent;
+            font-size: 18px;
+            cursor: pointer;
+            color: #c15a8e;
+        }
+
+        /* 禮盒動畫 */
+        .gift-box {
+            width: 120px;
+            height: 90px;
+            margin: 0 auto 12px;
+            position: relative;
+        }
+
+        .gift-base {
+            width: 100%;
+            height: 70px;
+            background: #ff82ac;
+            border-radius: 12px;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .gift-stripe {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 100%;
+            background: rgba(255,255,255,0.7);
+        }
+
+        .gift-lid {
+            width: 110%;
+            height: 30px;
+            background: #ff9fbe;
+            border-radius: 14px;
+            position: absolute;
+            top: -10px;
+            left: -5%;
+            transform-origin: bottom center;
+            animation: lidBounce 2.2s ease-in-out infinite;
+        }
+
+        @keyframes lidBounce {
+            0%, 70%, 100% { transform: translateY(0) rotate(0deg); }
+            40% { transform: translateY(-10px) rotate(-4deg); }
+        }
+
+        /* 蠟燭 */
+        .candle {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 30px;
+            background: #ffe6a7;
+            border-radius: 6px;
+        }
+
+        .candle-stripe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(135deg, rgba(255,150,170,0.7) 25%, transparent 25%, transparent 50%, rgba(255,150,170,0.7) 50%, rgba(255,150,170,0.7) 75%, transparent 75%, transparent);
+            background-size: 8px 8px;
+        }
+
+        .flame {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 20px;
+            background: radial-gradient(circle at 30% 20%, #fff8c2, #ffc857, #ff8b5a);
+            border-radius: 50% 50% 50% 50%;
+            animation: flicker 0.9s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1) translateY(0); opacity: 0.9; }
+            100% { transform: translateX(-48%) scale(1.06) translateY(1px); opacity: 1; }
+        }
+
+        .sparkles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.9;
+        }
+
+        .sparkles span {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            animation: sparkle 1.2s infinite ease-out;
+        }
+
+        @keyframes sparkle {
+            0% { transform: translateY(0) scale(0.4); opacity: 1; }
+            100% { transform: translateY(-14px) scale(0.9); opacity: 0; }
+        }
+
+        .hidden-message {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #5a2b40;
+            display: none;
+        }
+
+        /* 飄花瓣 */
+        #petal-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        .petal {
+            position: absolute;
+            top: -40px;
+            width: 14px;
+            height: 18px;
+            background: radial-gradient(circle at 30% 20%, #fff5fa, #ffb3ce, #ff82ac);
+            border-radius: 50% 60% 50% 60%;
+            opacity: 0.9;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translate3d(0,0,0) rotateZ(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translate3d(var(--x-move, 60px), 110vh, 0) rotateZ(180deg); opacity: 0; }
         }
 
         @media (max-width: 640px) {
@@ -292,23 +508,31 @@
     </style>
 </head>
 <body>
+    <!-- 花瓣容器 -->
+    <div id="petal-container"></div>
+
     <!-- 導覽列 -->
     <header class="navbar">
         <div class="navbar-title">媽媽的 Python 心靈小天地 💗</div>
         <nav class="nav-links">
-            <a href="#home">首頁</a>
-            <a href="#warm">暖心提醒</a>
-            <a href="#mood">心情小測驗</a>
-            <a href="#python-first">第一個程式</a>
-            <a href="#game">小遊戲</a>
-            <a href="#lessons">Python 入門</a>
-            <a href="#message">給媽媽的話</a>
+            <a data-section="home">首頁</a>
+            <a data-section="warm">暖心提醒</a>
+            <a data-section="mood">心情測驗</a>
+            <a data-section="python-first">第一個程式</a>
+            <a data-section="game">小遊戲</a>
+            <a data-section="lessons">Python 入門</a>
+            <a data-section="diary">小日記</a>
+            <a data-section="message">給媽媽的話</a>
+            <a id="navSurprise" class="nav-surprise">🎁 生日驚喜</a>
         </nav>
     </header>
 
+    <!-- 生日快樂鋼琴音樂（請自行上傳 birthday_piano.mp3 到 repo） -->
+    <audio id="birthdayMusic" src="birthday_piano.mp3" loop></audio>
+
     <main>
         <!-- 首頁 -->
-        <section id="home" class="section">
+        <section id="home" class="section active">
             <div class="container">
                 <div class="card hero">
                     <div class="hero-text">
@@ -321,16 +545,14 @@
                             不用懂電腦、不用懂程式，只要點點看、看看字，就可以了。
                         </p>
                         <p>謝謝妳一直努力照顧自己、照顧家，也願意開始學新的東西。<br />我會陪妳，一點點慢慢來。💗</p>
-                        <button class="btn" onclick="document.getElementById('warm').scrollIntoView({behavior:'smooth'});">
+                        <button class="btn" onclick="switchSection('warm')">
                             從暖心小提醒開始 💌
                         </button>
                     </div>
                     <div class="hero-photo">
                         <!-- 把 mom_photo.jpg 換成你上傳的檔名 -->
-                        <img src="mom_photo.jpg" alt="媽媽的照片" />
-                        <div style="font-size: 12px; margin-top: 8px; color:#b15482;">
-                            （這裡可以放媽媽或你們的合照 💕）
-                        </div>
+                        <img src="mom_photo.jpg" alt="媽媽的照片或合照" />
+                        <div class="hero-note">（這裡可以放媽媽或你們的合照 💕）</div>
                     </div>
                 </div>
             </div>
@@ -468,11 +690,32 @@
             </div>
         </section>
 
+        <!-- 小日記 -->
+        <section id="diary" class="section">
+            <div class="container">
+                <div class="card">
+                    <div class="section-label">section 6 · little diary</div>
+                    <h2>📝 媽媽的小日記</h2>
+                    <p>如果妳願意，可以在這裡隨便寫寫今天的心情、想到的事，只有這台裝置的瀏覽器會知道。</p>
+                    <textarea id="diaryText" class="diary-textarea" placeholder="今天想對自己說什麼呢？"></textarea>
+                    <div class="diary-hint">
+                        這些內容會保存在這台裝置的瀏覽器裡（localStorage），不會傳到任何地方。<br />
+                        關掉網頁再打開，文字也會留下來。
+                    </div>
+                    <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+                        <button class="btn" onclick="saveDiary()">儲存日記</button>
+                        <button class="btn-secondary" onclick="clearDiary()">清空日記</button>
+                    </div>
+                    <div id="diaryStatus" style="margin-top:10px;font-size:13px;color:#b36a8c;"></div>
+                </div>
+            </div>
+        </section>
+
         <!-- 給媽媽的話 -->
         <section id="message" class="section">
             <div class="container">
                 <div class="card">
-                    <div class="section-label">section 6 · from yoyo</div>
+                    <div class="section-label">section 7 · from yoyo</div>
                     <h2>❤️ YoYo 想對媽媽說</h2>
                     <p>
                         （👉 這一段妳可以自己改成真正想跟媽媽說的話。<br />
@@ -500,8 +743,67 @@
         不管我在哪裡，打開這個網址，就等於在跟妳說「我在想妳」。
     </div>
 
+    <!-- 生日驚喜 Overlay -->
+    <div id="surpriseOverlay" class="surprise-overlay">
+        <div class="surprise-card">
+            <button class="surprise-close" onclick="closeSurprise()">✕</button>
+            <div class="gift-box">
+                <div class="gift-base"></div>
+                <div class="gift-stripe"></div>
+                <div class="candle">
+                    <div class="candle-stripe"></div>
+                    <div class="flame"></div>
+                </div>
+                <div class="sparkles">
+                    <span style="top:10%;left:20%;animation-delay:0s;"></span>
+                    <span style="top:5%;left:70%;animation-delay:0.2s;"></span>
+                    <span style="top:30%;left:50%;animation-delay:0.4s;"></span>
+                    <span style="top:25%;left:80%;animation-delay:0.6s;"></span>
+                </div>
+                <div class="gift-lid"></div>
+            </div>
+            <h3>🎉 媽媽生日快樂 🎉</h3>
+            <p style="font-size:14px;color:#5a2b40;">
+                謝謝妳一直努力地生活、學習、照顧自己。<br />
+                打開這個小禮物的同時，也希望妳可以對自己更溫柔一點。💗
+            </p>
+            <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; justify-content:center;">
+                <button class="btn-secondary" onclick="toggleMusic()">🎼 播放/暫停 生日快樂鋼琴</button>
+                <button class="btn" onclick="toggleHiddenMessage()">💌 看 YoYo 的隱藏訊息</button>
+            </div>
+            <div id="hiddenMessage" class="hidden-message">
+                YoYo：<br />
+                謝謝妳一直在，我也會努力成為一個讓妳可以放心依靠的大人。<br />
+                不管之後我在哪裡，都會記得今天這個生日、記得妳願意為自己過生活。<br />
+                希望有一天，我可以親手幫妳點真的生日蠟燭。🥹💖
+            </div>
+        </div>
+    </div>
+
     <script>
-        // 1. 暖心提醒
+        // SPA: 切換 section
+        const sections = document.querySelectorAll(".section");
+        const navLinks = document.querySelectorAll(".nav-links a[data-section]");
+
+        function switchSection(id) {
+            sections.forEach(sec => {
+                if (sec.id === id) {
+                    sec.classList.add("active");
+                } else {
+                    sec.classList.remove("active");
+                }
+            });
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                const id = link.getAttribute("data-section");
+                if (id) switchSection(id);
+            });
+        });
+
+        // 暖心提醒
         const warmMessages = [
             "妳今天已經做得很好了，可以休息一下沒關係。💛",
             "妳不需要完美，已經夠好了，真的。🌷",
@@ -517,7 +819,7 @@
             document.getElementById("warmMessage").innerText = msg;
         }
 
-        // 2. 心情小測驗
+        // 心情小測驗
         function checkMood() {
             const moods = document.getElementsByName("mood");
             let selected = null;
@@ -550,32 +852,29 @@
             result.innerText = text;
         }
 
-        // 3. 假 Python 終端機
+        // 假 Python 終端機
         function runFakePython() {
             const input = document.getElementById("terminalInput");
             const output = document.getElementById("terminalOutput");
             const line = input.value.trim();
+            if (!line) return;
             const div = document.createElement("div");
             div.textContent = ">>> " + line;
             output.appendChild(div);
 
-            // 很簡單地解析 print("...")
             let match = line.match(/^print\(["'](.+)["']\)$/);
             const result = document.createElement("div");
             if (match) {
                 result.textContent = match[1];
-            } else if (line === "") {
-                result.textContent = "";
             } else {
                 result.textContent = "（這裡只認得 print(\"...\" ) 這種格式，其它先不用管也沒關係～）";
             }
             output.appendChild(result);
             input.value = "";
-            // 自動捲到底
-            output.parentElement.scrollTop = output.parentElement.scrollHeight;
+            output.scrollTop = output.scrollHeight;
         }
 
-        // 4. 猜數字遊戲
+        // 猜數字遊戲
         let answer = Math.floor(Math.random() * 10) + 1;
 
         function checkGuess() {
@@ -587,7 +886,7 @@
                 return;
             }
             if (value === answer) {
-                result.innerText = "哇！媽媽妳也太厲害了～完全猜中！🎉 要不要再玩一次？";
+                result.innerText = "哇！媽媽妳也太壞...不是，太厲害了～完全猜中！🎉 要不要再玩一次？";
             } else if (value < answer) {
                 result.innerText = "再大一點點～👀";
             } else {
@@ -600,6 +899,111 @@
             document.getElementById("gameResult").innerText = "已經重新想好一個數字囉～可以再試一次！💪";
             document.getElementById("guessInput").value = "";
         }
+
+        // 小日記 - localStorage
+        const DIARY_KEY = "momDiaryText";
+
+        function loadDiary() {
+            const saved = localStorage.getItem(DIARY_KEY);
+            if (saved !== null) {
+                const diaryText = document.getElementById("diaryText");
+                if (diaryText) diaryText.value = saved;
+            }
+        }
+
+        function saveDiary() {
+            const text = document.getElementById("diaryText").value;
+            localStorage.setItem(DIARY_KEY, text);
+            const status = document.getElementById("diaryStatus");
+            status.innerText = "已儲存 ✔";
+            setTimeout(() => status.innerText = "", 2000);
+        }
+
+        function clearDiary() {
+            document.getElementById("diaryText").value = "";
+            localStorage.removeItem(DIARY_KEY);
+            const status = document.getElementById("diaryStatus");
+            status.innerText = "已清空 🧽";
+            setTimeout(() => status.innerText = "", 2000);
+        }
+
+        // 生日驚喜 Overlay + 音樂 + 隱藏訊息
+        const overlay = document.getElementById("surpriseOverlay");
+        const hiddenMessage = document.getElementById("hiddenMessage");
+        const birthdayMusic = document.getElementById("birthdayMusic");
+        let musicPlaying = false;
+
+        document.getElementById("navSurprise").addEventListener("click", () => {
+            overlay.classList.add("active");
+            // 一打開先嘗試播放一次，如果瀏覽器不給，就等她按「播放」按鈕
+            birthdayMusic.play().then(() => { musicPlaying = true; }).catch(() => {});
+        });
+
+        function closeSurprise() {
+            overlay.classList.remove("active");
+            if (musicPlaying) {
+                birthdayMusic.pause();
+                birthdayMusic.currentTime = 0;
+                musicPlaying = false;
+            }
+            hiddenMessage.style.display = "none";
+        }
+
+        function toggleMusic() {
+            if (!birthdayMusic) return;
+            if (musicPlaying) {
+                birthdayMusic.pause();
+                musicPlaying = false;
+            } else {
+                birthdayMusic.play().then(() => { musicPlaying = true; }).catch(() => {});
+            }
+        }
+
+        function toggleHiddenMessage() {
+            if (hiddenMessage.style.display === "block") {
+                hiddenMessage.style.display = "none";
+            } else {
+                hiddenMessage.style.display = "block";
+            }
+        }
+
+        // 飄花瓣效果（進站約 10 秒）
+        function startPetals(durationMs = 10000) {
+            const container = document.getElementById("petal-container");
+            if (!container) return;
+            const interval = 350;
+            const startTime = Date.now();
+
+            const timer = setInterval(() => {
+                const now = Date.now();
+                if (now - startTime > durationMs) {
+                    clearInterval(timer);
+                    return;
+                }
+                createPetal(container);
+            }, interval);
+        }
+
+        function createPetal(container) {
+            const petal = document.createElement("div");
+            petal.className = "petal";
+            const startLeft = Math.random() * 100;
+            const xMove = (Math.random() * 160 - 80) + "px"; // 左右飄
+            const duration = 6000 + Math.random() * 4000;
+            petal.style.left = startLeft + "vw";
+            petal.style.setProperty("--x-move", xMove);
+            petal.style.animationDuration = duration + "ms";
+            container.appendChild(petal);
+            setTimeout(() => {
+                petal.remove();
+            }, duration + 1000);
+        }
+
+        // 初始載入
+        document.addEventListener("DOMContentLoaded", () => {
+            loadDiary();
+            startPetals(10000); // 花瓣飄 10 秒
+        });
     </script>
 </body>
 </html>
