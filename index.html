@@ -505,6 +505,70 @@
                 margin-bottom: 4px;
             }
         }
+        /* Flipbook 相簿 */
+            .flipbook {
+                width: 100%;
+            height: 400px;
+            margin: 20px auto;
+            position: relative;
+            perspective: 2000px;
+        }
+
+        .flipbook .page {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 1s ease;
+            cursor: pointer;
+        }
+
+        .flipbook .page img {
+            width: 100%;
+            height: 330px;
+            object-fit: cover;
+        }
+
+        .flipbook .page p {
+            text-align: center;
+            font-size: 15px;
+            color: #b04b7e;
+            margin: 10px;
+        }
+
+        /* 翻過去的頁面 */
+        .page.flipped {
+            transform: rotateY(-180deg);
+            box-shadow: 0 0 0 rgba(0,0,0,0);
+        }
+
+        /* 第 2 頁以後要蓋在上方（越後面越下面） */
+        .page:nth-child(1) { z-index: 8; }
+        .page:nth-child(2) { z-index: 7; }
+        .page:nth-child(3) { z-index: 6; }
+        .page:nth-child(4) { z-index: 5; }
+        .page:nth-child(5) { z-index: 4; }
+        .page:nth-child(6) { z-index: 3; }
+        .page:nth-child(7) { z-index: 2; }
+        .page:nth-child(8) { z-index: 1; }
+
+        /* 手機調整 */
+        @media (max-width: 600px) {
+            .flipbook {
+                height: 320px;
+            }
+            .flipbook .page img {
+                height: 260px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -572,26 +636,29 @@
         </section>
 
         <!-- 心情小測驗 -->
-        <section id="mood" class="section">
+        <!-- 翻頁相簿（取代心情測驗） -->
+        <section id="mood" class="section active">
             <div class="container">
                 <div class="card">
-                    <div class="section-label">section 2 · mood check-in</div>
-                    <h2>🧡 今天心情怎麼樣？</h2>
-                    <p>選一個最接近現在的感覺，YoYo 會給妳一段專屬回覆。</p>
+                    <div class="section-label">section 2 · photo album</div>
+                    <h2>📖 YoYo & 媽媽的回憶相簿</h2>
+                    <p>翻翻這本相簿～每一頁都有一句 YoYo 想對媽媽說的小話 💗</p>
 
-                    <div class="mood-options">
-                        <label><input type="radio" name="mood" value="開心" />😄 開心</label>
-                        <label><input type="radio" name="mood" value="普通" />🙂 普通</label>
-                        <label><input type="radio" name="mood" value="累累" />😴 累累</label>
-                        <label><input type="radio" name="mood" value="煩" />😣 心煩</label>
-                        <label><input type="radio" name="mood" value="難過" />😢 難過</label>
+                    <!-- Flipbook 容器 -->
+                    <div id="flipbook" class="flipbook">
+                        <div class="page"><img src="photo1.jpg"><p>🌸 妳的笑容，是家裡最暖的光。</p></div>
+                        <div class="page"><img src="photo2.jpg"><p>💗 這些回憶，我都好珍惜。</p></div>
+                        <div class="page"><img src="photo3.jpg"><p>🛳️ 在船上一起拍照，好幸福。</p></div>
+                        <div class="page"><img src="photo4.jpg"><p>🌈 和妳去哪裡都很開心。</p></div>
+                        <div class="page"><img src="photo5.jpg"><p>🍰 妳永遠值得被好好對待。</p></div>
+                        <div class="page"><img src="photo6.jpg"><p>✨ 妳是我心裡最柔軟的那一塊。</p></div>
+                        <div class="page"><img src="photo7.jpg"><p>🤍 希望妳每天都過得安心。</p></div>
+                        <div class="page"><img src="photo8.jpg"><p>🌷 生日快樂，我愛妳。</p></div>
                     </div>
-
-                    <button class="btn" onclick="checkMood()">看回覆 💬</button>
-                    <div id="moodResult" style="margin-top:16px;font-size:15px;color:#5a2b40;"></div>
                 </div>
             </div>
         </section>
+
 
         <!-- 第一個 Python 程式 -->
         <section id="python-first" class="section">
@@ -841,37 +908,17 @@
 
 
         // 心情小測驗
-        function checkMood() {
-            const moods = document.getElementsByName("mood");
-            let selected = null;
-            for (const m of moods) {
-                if (m.checked) { selected = m.value; break; }
-            }
-            const result = document.getElementById("moodResult");
-            if (!selected) {
-                result.innerText = "先選一個現在的心情吧～🥺";
-                return;
-            }
-            let text = "";
-            switch (selected) {
-                case "開心":
-                    text = "太好了！妳值得擁有這份開心。記得把這種好感覺存起來，哪天不順利的時候可以拿出來回想。🌈";
-                    break;
-                case "普通":
-                    text = "平平淡淡其實也是很珍貴的一種幸福。希望生活裡的小細節，都能慢慢變成溫柔的記憶。🌼";
-                    break;
-                case "累累":
-                    text = "辛苦妳了。累的時候，什麼都不做、好好躺著，也是很重要的事情。妳有資格休息。💤";
-                    break;
-                case "煩":
-                    text = "最近一定壓力很大吧？如果覺得煩到不想說話，也沒關係，我在這裡、慢慢陪妳。可以先從一杯水、一個深呼吸開始。🤍";
-                    break;
-                case "難過":
-                    text = "抱抱妳。難過不是軟弱，只是心在提醒妳：這些事情對妳很重要。妳不用急著變好，只要讓自己安全地難過就好。🤗";
-                    break;
-            }
-            result.innerText = text;
-        }
+        // Flipbook 翻頁功能
+        document.addEventListener("DOMContentLoaded", () => {
+            const pages = document.querySelectorAll(".flipbook .page");
+
+            pages.forEach((page, index) => {
+                page.addEventListener("click", () => {
+                    page.classList.toggle("flipped");
+                });
+            });
+        });
+
 
         // 假 Python 終端機
         function runFakePython() {
@@ -1024,6 +1071,7 @@
     </script>
 </body>
 </html>
+
 
 
 
