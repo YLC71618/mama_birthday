@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8" />
-    <title>媽媽的 Python 心靈小天地</title>
+    <title>媽媽生日專區</title>
     <style>
         body {
             margin: 0;
@@ -513,7 +513,7 @@
 
     <!-- 導覽列 -->
     <header class="navbar">
-        <div class="navbar-title">媽媽的 Python 心靈小天地 💗</div>
+        <div class="navbar-title">媽媽生日專區 💗</div>
         <nav class="nav-links">
             <a data-section="home">首頁</a>
             <a data-section="warm">暖心提醒</a>
@@ -536,17 +536,16 @@
             <div class="container">
                 <div class="card hero">
                     <div class="hero-text">
-                        <div class="tag">Happy Birthday, Mom 🎂</div>
+                        <div class="tag">HAPPY BIRTHDAY 🎂</div>
                         <h1>媽媽生日快樂！</h1>
                         <p>
-                            這個小小的網站，是 YoYo 在英國做給在台灣的媽媽的禮物。<br />
-                            希望這裡可以成為妳的
-                            <span class="highlight">「心靈休息站」＋「Python 起步小教室」</span>。<br />
-                            不用懂電腦、不用懂程式，只要點點看、看看字，就可以了。
+                            哈囉媽媽!歡迎來到"媽媽生日網站"。<br />
+                            請依序點選上方的選單~ 每一個按鈕都可以按按看(有些可重複按)!或許會有驚喜呦。<br />
+                            這裡不只是妳的生日卡片，妳也會進行第一次的coding!<br />
+                            事不宜遲我們開始吧 耶耶耶! Happy Learning!<br />
                         </p>
-                        <p>謝謝妳一直努力照顧自己、照顧家，也願意開始學新的東西。<br />我會陪妳，一點點慢慢來。💗</p>
-                        <button class="btn" onclick="switchSection('warm')">
-                            從暖心小提醒開始 💌
+                        <button class="btn" onclick="showSillyMessage()">
+                            媽媽妳按按看這個按紐! 💌
                         </button>
                     </div>
                     <div class="hero-photo">
@@ -803,6 +802,8 @@
             });
         });
 
+        
+
         // 暖心提醒
         const warmMessages = [
             "妳今天已經做得很好了，可以休息一下沒關係。💛",
@@ -818,6 +819,25 @@
             const msg = warmMessages[Math.floor(Math.random() * warmMessages.length)];
             document.getElementById("warmMessage").innerText = msg;
         }
+        
+        function showSillyMessage() {
+            const message = "哈哈哈 媽媽妳被騙了這個按紐沒有用處ㄛ";
+
+            let box = document.getElementById("homeFixedMessage");
+    
+            if (!box) {
+                const hero = document.querySelector("#home .hero-text");
+                box = document.createElement("div");
+                box.id = "homeFixedMessage";
+                box.style.marginTop = "18px";
+                box.style.fontSize = "16px";
+                box.style.color = "#5a2b40";
+                hero.appendChild(box);
+            }
+
+            box.innerText = message;
+        }
+
 
         // 心情小測驗
         function checkMood() {
@@ -1003,4 +1023,5 @@
     </script>
 </body>
 </html>
+
 
