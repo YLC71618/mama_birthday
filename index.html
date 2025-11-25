@@ -533,9 +533,8 @@
 
         .flipbook .page img {
             width: 100%;
-            height: 100%;
+            height: 80%;
             object-fit: contain;
-            border-radius: 16px;
         }
 
         .flipbook .page p {
@@ -644,7 +643,7 @@
         <section id="mood" class="section active">
             <div class="container">
                 <div class="card">
-                    <div class="section-label">section 3 · photo album</div>
+                    <div class="section-label">section 2 · photo album</div>
                     <h2>📖 媽媽 & 妹妹的回憶相簿</h2>
                     <p>可以左右翻! 💗</p>
 
@@ -668,8 +667,8 @@
         <section id="python-first" class="section">
             <div class="container">
                 <div class="card">
-                    <div class="section-label">section 3 · first python</div>
-                    <h2>🐍 媽媽的人生第一個 Python 程式</h2>
+                    <div class="section-label">section 3 · first python code</div>
+                    <h2>🐍 媽媽學習User Input</h2>
                     <p>
                         在程式語言裡，經典的第一句話叫做：<code>print("Hello, world!")</code><br />
                         它的意思是：請電腦「印出」括號裡的文字。
@@ -930,21 +929,69 @@
             const output = document.getElementById("terminalOutput");
             const line = input.value.trim();
             if (!line) return;
+
+            // 顯示使用者輸入
             const div = document.createElement("div");
             div.textContent = ">>> " + line;
             output.appendChild(div);
 
-            let match = line.match(/^print\(["'](.+)["']\)$/);
-            const result = document.createElement("div");
-            if (match) {
-                result.textContent = match[1];
-            } else {
-                result.textContent = "（這裡只認得 print(\"...\" ) 這種格式，其它先不用管也沒關係～）";
+            // ---------- print 功能 ----------
+            let printMatch = line.match(/^print\(["'](.+)["']\)$/);
+
+            if (printMatch) {
+                const result = document.createElement("div");
+                result.textContent = printMatch[1];
+                output.appendChild(result);
+                input.value = "";
+                output.scrollTop = output.scrollHeight;
+                return;
             }
-            output.appendChild(result);
+
+            // ---------- input 功能 ----------
+            let inputMatch = line.match(/^(.+)\s*=\s*input\(["'](.+)["']\)$/);
+            if (inputMatch) {
+                const variableName = inputMatch[1].trim();
+                const question = inputMatch[2];
+
+                // 顯示問題（模擬 input 提示）
+                const ask = document.createElement("div");
+                ask.textContent = question;
+                output.appendChild(ask);
+
+                // 改成下一行讓媽媽輸入答案
+                input.placeholder = "請輸入答案後按 Enter";
+                input.dataset.waitingForInput = variableName; // 做記號：正在等待 input
+                input.value = "";
+                output.scrollTop = output.scrollHeight;
+                return;
+            }
+
+            // ---------- 回答 input() ----------
+            if (input.dataset.waitingForInput) {
+                const varName = input.dataset.waitingForInput;
+                const userAnswer = line;
+
+                const result = document.createElement("div");
+                result.textContent = `${varName} = "${userAnswer}"`;
+                output.appendChild(result);
+
+                // 清除等待狀態
+                delete input.dataset.waitingForInput;
+                input.placeholder = '例如：print("我今天值得休息")';
+                input.value = "";
+                output.scrollTop = output.scrollHeight;
+                return;
+            }
+
+            // ---------- 找不到指令 ----------
+            const unknown = document.createElement("div");
+            unknown.textContent = "（這裡只認得 print(...) 和 input(...)，其餘先不用管～）";
+            output.appendChild(unknown);
+
             input.value = "";
             output.scrollTop = output.scrollHeight;
         }
+
 
         // 猜數字遊戲
         let answer = Math.floor(Math.random() * 10) + 1;
@@ -1075,6 +1122,7 @@
     </script>
 </body>
 </html>
+
 
 
 
