@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <title>媽媽的 Python 心靈小天地</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Microsoft JhengHei", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #ffe5f1, #fff7fb);
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 頂部導覽列 */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(255, 240, 247, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 26px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .navbar-title {
+            font-weight: 700;
+            color: #d63e7c;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+        }
+
+        .nav-links a {
+            padding: 6px 10px;
+            border-radius: 999px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 133, 172, 0.25);
+        }
+
+        /* 共用卡片樣式 */
+        .section {
+            padding: 40px 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 26px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+            margin-bottom: 24px;
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+            color: #d63e7c;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 999px;
+            background: #ff82ac;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 4px 0;
+        }
+
+        .btn:hover {
+            background: #ff6595;
+        }
+
+        .btn-secondary {
+            background: #ffe0ea;
+            color: #d63e7c;
+        }
+
+        .btn-secondary:hover {
+            background: #ffd1e2;
+        }
+
+        /* 首頁 Hero */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .hero-text {
+            flex: 1 1 260px;
+        }
+
+        .hero-photo {
+            flex: 0 0 220px;
+            text-align: center;
+        }
+
+        .hero-photo img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.20);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            background: #ffe0ee;
+            color: #c12f6a;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: #fff0f7;
+            border-radius: 12px;
+            padding: 6px 10px;
+            display: inline-block;
+            margin-top: 6px;
+        }
+
+        /* 區塊小標籤 */
+        .section-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #c15a8e;
+            margin-bottom: 6px;
+        }
+
+        /* 心情選項 */
+        .mood-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0 16px;
+        }
+
+        .mood-options label {
+            background: #fff2f7;
+            padding: 6px 10px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        input[type="radio"] {
+            margin-right: 4px;
+        }
+
+        /* 假終端機 */
+        .terminal {
+            background: #1f1b24;
+            color: #f7f1ff;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 13px;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dot.red { background: #ff5f57; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #28c840; }
+
+        .terminal-input-line {
+            margin-top: 10px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .terminal-input-line input {
+            flex: 1;
+            padding: 4px 6px;
+            border-radius: 6px;
+            border: 1px solid #555;
+            background: #2a2433;
+            color: #f7f1ff;
+            font-family: inherit;
+            font-size: 13px;
+        }
+
+        /* 猜數字遊戲 */
+        .game-input {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .game-input input {
+            width: 80px;
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid #ff9ab9;
+            text-align: center;
+        }
+
+        /* 教學清單 */
+        .lesson-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .lesson-list li {
+            background: #fff4f9;
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        code {
+            background: #ffe9f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 13px;
+        }
+
+        /* 最後祝福 */
+        .footer-note {
+            font-size: 13px;
+            text-align: center;
+            color: #b36a8c;
+            padding: 20px 10px 30px;
+        }
+
+        @media (max-width: 640px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            .hero {
+                flex-direction: column-reverse;
+            }
+            .hero-photo {
+                margin-bottom: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 導覽列 -->
+    <header class="navbar">
+        <div class="navbar-title">媽媽的 Python 心靈小天地 💗</div>
+        <nav class="nav-links">
+            <a href="#home">首頁</a>
+            <a href="#warm">暖心提醒</a>
+            <a href="#mood">心情小測驗</a>
+            <a href="#python-first">第一個程式</a>
+            <a href="#game">小遊戲</a>
+            <a href="#lessons">Python 入門</a>
+            <a href="#message">給媽媽的話</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 首頁 -->
+        <section id="home" class="section">
+            <div class="container">
+                <div class="card hero">
+                    <div class="hero-text">
+                        <div class="tag">Happy Birthday, Mom 🎂</div>
+                        <h1>媽媽生日快樂！</h1>
+                        <p>
+                            這個小小的網站，是 YoYo 在英國做給在台灣的媽媽的禮物。<br />
+                            希望這裡可以成為妳的
+                            <span class="highlight">「心靈休息站」＋「Python 起步小教室」</span>。<br />
+                            不用懂電腦、不用懂程式，只要點點看、看看字，就可以了。
+                        </p>
+                        <p>謝謝妳一直努力照顧自己、照顧家，也願意開始學新的東西。<br />我會陪妳，一點點慢慢來。💗</p>
+                        <button class="btn" onclick="document.getElementById('warm').scrollIntoView({behavior:'smooth'});">
+                            從暖心小提醒開始 💌
+                        </button>
+                    </div>
+                    <div class="hero-photo">
+                        <!-- 把 mom_photo.jpg 換成你上傳的檔名 -->
+                        <img src="mom_photo.jpg" alt="媽媽的照片" />
+                        <div style="font-size: 12px; margin-top: 8px; color:#b15482;">
+                            （這裡可以放媽媽或你們的合照 💕）
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 暖心提醒 -->
+        <section id="warm" class="section">
+            <div class="container">
+                <div class="card">
+                    <div class="section-label">section 1 · warm words</div>
+                    <h2>💛 今天的暖心提醒</h2>
+                    <p>按下按鈕，隨機收到一小句，專門寫給媽媽的話。</p>
+                    <button class="btn" onclick="showWarmMessage()">給我一句話 ✨</button>
+                    <div id="warmMessage" style="margin-top:16px;font-size:16px;color:#5a2b40;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 心情小測驗 -->
+        <section id="mood" class="section">
+            <div class="container">
+                <div class="card">
+                    <div class="section-label">section 2 · mood check-in</div>
+                    <h2>🧡 今天心情怎麼樣？</h2>
+                    <p>選一個最接近現在的感覺，YoYo 會給妳一段專屬回覆。</p>
+
+                    <div class="mood-options">
+                        <label><input type="radio" name="mood" value="開心" />😄 開心</label>
+                        <label><input type="radio" name="mood" value="普通" />🙂 普通</label>
+                        <label><input type="radio" name="mood" value="累累" />😴 累累</label>
+                        <label><input type="radio" name="mood" value="煩" />😣 心煩</label>
+                        <label><input type="radio" name="mood" value="難過" />😢 難過</label>
+                    </div>
+
+                    <button class="btn" onclick="checkMood()">看回覆 💬</button>
+                    <div id="moodResult" style="margin-top:16px;font-size:15px;color:#5a2b40;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第一個 Python 程式 -->
+        <section id="python-first" class="section">
+            <div class="container">
+                <div class="card">
+                    <div class="section-label">section 3 · first python</div>
+                    <h2>🐍 媽媽的人生第一個 Python 程式</h2>
+                    <p>
+                        在程式語言裡，經典的第一句話叫做：<code>print("Hello, world!")</code><br />
+                        它的意思是：請電腦「印出」括號裡的文字。
+                    </p>
+                    <p>試試看在下面這個假終端機裡，輸入：</p>
+                    <p><code>print("Hello, Mom!")</code> 或 <code>print("我今天好棒")</code> 😆</p>
+
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="dot red"></div>
+                            <div class="dot yellow"></div>
+                            <div class="dot green"></div>
+                            <span style="margin-left:8px;font-size:12px;color:#bba3e8;">mom_terminal.py</span>
+                        </div>
+                        <div id="terminalOutput">
+                            <div>Python 3.x (模擬版) - 歡迎妳，媽媽 💜</div>
+                            <div>請輸入一行像這樣的程式：print("妳想說的話")</div>
+                        </div>
+                        <div class="terminal-input-line">
+                            <span style="color:#9be5ff;">>>> </span>
+                            <input id="terminalInput" type="text" placeholder='例如：print("我今天值得休息")' />
+                            <button class="btn-secondary" onclick="runFakePython()">Enter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 小遊戲：猜數字 -->
+        <section id="game" class="section">
+            <div class="container">
+                <div class="card">
+                    <div class="section-label">section 4 · mini game</div>
+                    <h2>🎲 小遊戲：猜猜看 1～10</h2>
+                    <p>YoYo 心裡想一個 1～10 的數字，媽媽來猜猜看是幾號！</p>
+                    <div class="game-input">
+                        <input id="guessInput" type="number" min="1" max="10" placeholder="1–10" />
+                        <button class="btn" onclick="checkGuess()">送出答案</button>
+                        <button class="btn-secondary" onclick="resetGame()">重新出題</button>
+                    </div>
+                    <div id="gameResult" style="margin-top:12px;font-size:15px;color:#5a2b40;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Python 入門教學 -->
+        <section id="lessons" class="section">
+            <div class="container">
+                <div class="card">
+                    <div class="section-label">section 5 · python basics</div>
+                    <h2>📘 給媽媽的 Python 入門小抄</h2>
+                    <p>這裡不是要考試，只是要讓妳大概有個印象。以後如果想學，我可以陪妳慢慢看。</p>
+
+                    <ul class="lesson-list">
+                        <li>
+                            <strong>1. 印出一句話：<code>print()</code></strong><br />
+                            例：<code>print("媽媽今天好勇敢")</code><br />
+                            電腦就會把括號裡的字顯示出來。
+                        </li>
+                        <li>
+                            <strong>2. 存一個小資料：變數</strong><br />
+                            例：<code>name = "Mom"</code><br />
+                            之後可以用 <code>print(name)</code> 把它叫出來。
+                        </li>
+                        <li>
+                            <strong>3. 問問題：<code>input()</code></strong><br />
+                            例：<code>feeling = input("今天心情如何？")</code><br />
+                            電腦會等妳輸入，答案會被存在 <code>feeling</code> 這個變數裡。
+                        </li>
+                        <li>
+                            <strong>4. 做決定：<code>if</code></strong><br />
+                            例：<br />
+                            <code>
+                                if feeling == "累":<br />
+                                &nbsp;&nbsp;print("那就休息一下再出發～")
+                            </code>
+                        </li>
+                        <li>
+                            <strong>5. 重複很多次：<code>for</code> 迴圈</strong><br />
+                            例：<br />
+                            <code>
+                                for i in range(3):<br />
+                                &nbsp;&nbsp;print("媽媽我愛妳")
+                            </code><br />
+                            這會印出三次「媽媽我愛妳」。🫶
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 給媽媽的話 -->
+        <section id="message" class="section">
+            <div class="container">
+                <div class="card">
+                    <div class="section-label">section 6 · from yoyo</div>
+                    <h2>❤️ YoYo 想對媽媽說</h2>
+                    <p>
+                        （👉 這一段妳可以自己改成真正想跟媽媽說的話。<br />
+                        直接在這個檔案裡修改文字，再重新上傳到 GitHub 就可以更新。）
+                    </p>
+                    <p id="yoyoMessage">
+                        媽媽，生日快樂！<br />
+                        雖然我現在人在英國、妳在台灣，但我每天都很常想到妳。<br />
+                        很謝謝妳願意嘗試新的東西、想學 Python、想照顧好自己的心和身體。<br /><br />
+                        這個小網站只是很小的一份禮物，代表我在這裡陪妳、支持妳。<br />
+                        妳可以慢慢來、不用跟別人比較、也不用對自己太嚴格。<br />
+                        無論妳現在心情是開心、疲累、焦慮還是難過，對我來說，妳都是世界上最重要的人之一。<br /><br />
+                        希望妳打開這個網站的時候，能感覺到一點點被擁抱的感覺。<br />
+                        我愛妳，也會繼續長大、變得更有力量，可以好好守護自己，也多陪妳。💗<br /><br />
+                        Love,<br />
+                        YoYo
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="footer-note">
+        這個網站是 YoYo 用 GitHub Pages 做的。<br />
+        不管我在哪裡，打開這個網址，就等於在跟妳說「我在想妳」。
+    </div>
+
+    <script>
+        // 1. 暖心提醒
+        const warmMessages = [
+            "妳今天已經做得很好了，可以休息一下沒關係。💛",
+            "妳不需要完美，已經夠好了，真的。🌷",
+            "喝口水、深呼吸一下，世界可以暫停一點點。🌿",
+            "不管別人怎麼看，妳值得被溫柔對待，包括妳自己。💗",
+            "慢慢來就好，不用急著追上任何人。🕊️",
+            "有情緒是很正常的，妳不需要對自己的感受感到抱歉。🤍",
+            "謝謝妳沒有放棄自己，這件事很了不起。✨"
+        ];
+
+        function showWarmMessage() {
+            const msg = warmMessages[Math.floor(Math.random() * warmMessages.length)];
+            document.getElementById("warmMessage").innerText = msg;
+        }
+
+        // 2. 心情小測驗
+        function checkMood() {
+            const moods = document.getElementsByName("mood");
+            let selected = null;
+            for (const m of moods) {
+                if (m.checked) { selected = m.value; break; }
+            }
+            const result = document.getElementById("moodResult");
+            if (!selected) {
+                result.innerText = "先選一個現在的心情吧～🥺";
+                return;
+            }
+            let text = "";
+            switch (selected) {
+                case "開心":
+                    text = "太好了！妳值得擁有這份開心。記得把這種好感覺存起來，哪天不順利的時候可以拿出來回想。🌈";
+                    break;
+                case "普通":
+                    text = "平平淡淡其實也是很珍貴的一種幸福。希望生活裡的小細節，都能慢慢變成溫柔的記憶。🌼";
+                    break;
+                case "累累":
+                    text = "辛苦妳了。累的時候，什麼都不做、好好躺著，也是很重要的事情。妳有資格休息。💤";
+                    break;
+                case "煩":
+                    text = "最近一定壓力很大吧？如果覺得煩到不想說話，也沒關係，我在這裡、慢慢陪妳。可以先從一杯水、一個深呼吸開始。🤍";
+                    break;
+                case "難過":
+                    text = "抱抱妳。難過不是軟弱，只是心在提醒妳：這些事情對妳很重要。妳不用急著變好，只要讓自己安全地難過就好。🤗";
+                    break;
+            }
+            result.innerText = text;
+        }
+
+        // 3. 假 Python 終端機
+        function runFakePython() {
+            const input = document.getElementById("terminalInput");
+            const output = document.getElementById("terminalOutput");
+            const line = input.value.trim();
+            const div = document.createElement("div");
+            div.textContent = ">>> " + line;
+            output.appendChild(div);
+
+            // 很簡單地解析 print("...")
+            let match = line.match(/^print\(["'](.+)["']\)$/);
+            const result = document.createElement("div");
+            if (match) {
+                result.textContent = match[1];
+            } else if (line === "") {
+                result.textContent = "";
+            } else {
+                result.textContent = "（這裡只認得 print(\"...\" ) 這種格式，其它先不用管也沒關係～）";
+            }
+            output.appendChild(result);
+            input.value = "";
+            // 自動捲到底
+            output.parentElement.scrollTop = output.parentElement.scrollHeight;
+        }
+
+        // 4. 猜數字遊戲
+        let answer = Math.floor(Math.random() * 10) + 1;
+
+        function checkGuess() {
+            const input = document.getElementById("guessInput");
+            const result = document.getElementById("gameResult");
+            const value = parseInt(input.value, 10);
+            if (isNaN(value) || value < 1 || value > 10) {
+                result.innerText = "請輸入 1～10 之間的整數喔～😊";
+                return;
+            }
+            if (value === answer) {
+                result.innerText = "哇！媽媽妳也太厲害了～完全猜中！🎉 要不要再玩一次？";
+            } else if (value < answer) {
+                result.innerText = "再大一點點～👀";
+            } else {
+                result.innerText = "再小一點點～😉";
+            }
+        }
+
+        function resetGame() {
+            answer = Math.floor(Math.random() * 10) + 1;
+            document.getElementById("gameResult").innerText = "已經重新想好一個數字囉～可以再試一次！💪";
+            document.getElementById("guessInput").value = "";
+        }
+    </script>
+</body>
+</html>
