@@ -1013,17 +1013,17 @@ function makeOutput(text) {
                 return;
             }
             if (value === answer) {
-                result.innerText = "哇！媽媽妳也太壞...不是，太厲害了～完全猜中！🎉 要不要再玩一次？";
+                result.innerText = "太厲害了～猜中！🎉";
             } else if (value < answer) {
-                result.innerText = "再大一點點～👀";
+                result.innerText = "再大一點～👀";
             } else {
-                result.innerText = "再小一點點～😉";
+                result.innerText = "再小一點～😉";
             }
         }
 
         function resetGame() {
             answer = Math.floor(Math.random() * 10) + 1;
-            document.getElementById("gameResult").innerText = "已經重新想好一個數字囉～可以再試一次！💪";
+            document.getElementById("gameResult").innerText = "已經重新想好一個數字囉～再試一次！💪";
             document.getElementById("guessInput").value = "";
         }
 
@@ -1086,7 +1086,7 @@ function makeOutput(text) {
         }
 
         function openYouTube() {
-            window.open("https://www.youtube.com/watch?v=R4xv8VXbxDE", "_blank");
+            window.open("https://youtu.be/R4xv8VXbxDE?si=1UC0i4J6MN-CQJau&t=142", "_blank");
         }
 
 
@@ -1130,6 +1130,7 @@ function makeOutput(text) {
     </script>
 </body>
 </html>
+
 
 
 
