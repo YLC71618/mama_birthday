@@ -638,9 +638,9 @@
             </div>
         </section>
 
-        <!-- 心情小測驗 -->
+        
         <!-- 翻頁相簿（取代心情測驗） -->
-        <section id="mood" class="section active">
+        <section id="mood" class="section">
             <div class="container">
                 <div class="card">
                     <div class="section-label">section 2 · photo album</div>
@@ -671,10 +671,18 @@
                     <h2>🐍 媽媽學習User Input</h2>
                     <p>
                         在程式語言裡，經典的第一句話叫做：<code>print("Hello, world!")</code><br />
-                        它的意思是：請電腦「印出」括號裡的文字。
+                        它的意思是：請電腦「印出」括號裡的文字。記得寫雙引號
                     </p>
-                    <p>試試看在下面這個假終端機裡，輸入：</p>
-                    <p><code>print("Hello, Mom!")</code> 或 <code>print("我今天好棒")</code> 😆</p>
+                    <p>Step 1: 試試看在下面這個假終端機裡，輸入：<br />
+                    <p><code>print("Hello Zing!")</code> 或 <code>print("我今天生日") 然後按ENTER</code> 😆<br />
+                    <p>你會看到他成功的印出你想要的訊息</p>
+                    <p>Step 2: 取得user的輸入 <br />
+                    <p>在終端機輸入 name = input("妳叫什麼名字？")<br />
+                    <p>電腦會顯示「妳叫什麼名字?」然後讓USER輸入答案<br />
+                    <p>如果單純輸入yachin, 電腦只會把yachin這個儲存到變數name裡，並不會印出來。<br />
+                    <p>這是因為妳沒有寫print()<br />
+                    <p>如果寫print(name), 電腦會印出yachin</p>
+                    
 
                     <div class="terminal">
                         <div class="terminal-header">
@@ -923,74 +931,88 @@
         });
 
 
-        // 假 Python 終端機
-        function runFakePython() {
-            const input = document.getElementById("terminalInput");
-            const output = document.getElementById("terminalOutput");
-            const line = input.value.trim();
-            if (!line) return;
+// --- 假終端機（完整模擬 print + input） ---
+let waitingInput = null;     // 暫存正在等待回答的變數
+let variables = {};          // 儲存變數內容
 
-            // 顯示使用者輸入
-            const div = document.createElement("div");
-            div.textContent = ">>> " + line;
-            output.appendChild(div);
+function runFakePython() {
+    const inputEl = document.getElementById("terminalInput");
+    const output = document.getElementById("terminalOutput");
+    const line = inputEl.value.trim();
+    if (!line) return;
 
-            // ---------- print 功能 ----------
-            let printMatch = line.match(/^print\(["'](.+)["']\)$/);
+    // 永遠先顯示使用者輸入的那一行
+    output.appendChild(makeOutput(">>> " + line));
 
-            if (printMatch) {
-                const result = document.createElement("div");
-                result.textContent = printMatch[1];
-                output.appendChild(result);
-                input.value = "";
-                output.scrollTop = output.scrollHeight;
-                return;
-            }
+    // -----------------------------
+    // 1. 如果正在等待 input() 的答案
+    // -----------------------------
+    if (waitingInput !== null) {
+        // 不印出回答
+        variables[waitingInput] = line;  
+        waitingInput = null;
+        inputEl.value = "";
+        output.scrollTop = output.scrollHeight;
+        return;
+    }
 
-            // ---------- input 功能 ----------
-            let inputMatch = line.match(/^(.+)\s*=\s*input\(["'](.+)["']\)$/);
-            if (inputMatch) {
-                const variableName = inputMatch[1].trim();
-                const question = inputMatch[2];
+    // -----------------------------
+    // 2. print("內容")
+    // -----------------------------
+    let printMatch = line.match(/^print\(["'](.+)["']\)$/);
+    if (printMatch) {
+        output.appendChild(makeOutput(printMatch[1]));
+        inputEl.value = "";
+        output.scrollTop = output.scrollHeight;
+        return;
+    }
 
-                // 顯示問題（模擬 input 提示）
-                const ask = document.createElement("div");
-                ask.textContent = question;
-                output.appendChild(ask);
-
-                // 改成下一行讓媽媽輸入答案
-                input.placeholder = "請輸入答案後按 Enter";
-                input.dataset.waitingForInput = variableName; // 做記號：正在等待 input
-                input.value = "";
-                output.scrollTop = output.scrollHeight;
-                return;
-            }
-
-            // ---------- 回答 input() ----------
-            if (input.dataset.waitingForInput) {
-                const varName = input.dataset.waitingForInput;
-                const userAnswer = line;
-
-                const result = document.createElement("div");
-                result.textContent = `${varName} = "${userAnswer}"`;
-                output.appendChild(result);
-
-                // 清除等待狀態
-                delete input.dataset.waitingForInput;
-                input.placeholder = '例如：print("我今天值得休息")';
-                input.value = "";
-                output.scrollTop = output.scrollHeight;
-                return;
-            }
-
-            // ---------- 找不到指令 ----------
-            const unknown = document.createElement("div");
-            unknown.textContent = "（這裡只認得 print(...) 和 input(...)，其餘先不用管～）";
-            output.appendChild(unknown);
-
-            input.value = "";
-            output.scrollTop = output.scrollHeight;
+    // -----------------------------
+    // 3. print(變數)
+    // -----------------------------
+    let printVarMatch = line.match(/^print\((.+)\)$/);
+    if (printVarMatch) {
+        const varName = printVarMatch[1].trim();
+        if (variables[varName] !== undefined) {
+            output.appendChild(makeOutput(variables[varName]));
+        } else {
+            output.appendChild(makeOutput("(這個變數還沒有資料喔)"));
         }
+        inputEl.value = "";
+        output.scrollTop = output.scrollHeight;
+        return;
+    }
+
+    // -----------------------------
+    // 4. name = input("問題")
+    // -----------------------------
+    let inputMatch = line.match(/^(\w+)\s*=\s*input\(["'](.+)["']\)$/);
+    if (inputMatch) {
+        let varName = inputMatch[1];
+        let question = inputMatch[2];
+
+        waitingInput = varName;  // 等下一行的回答
+        output.appendChild(makeOutput(question));
+        inputEl.value = "";
+        output.scrollTop = output.scrollHeight;
+        return;
+    }
+
+    // -----------------------------
+    // 5. 其他全部不支援
+    // -----------------------------
+    output.appendChild(makeOutput("（這裡只支援 print() 和 input()～）"));
+    inputEl.value = "";
+    output.scrollTop = output.scrollHeight;
+}
+
+function makeOutput(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div;
+}
+
+
 
 
         // 猜數字遊戲
@@ -1122,6 +1144,7 @@
     </script>
 </body>
 </html>
+
 
 
 
