@@ -516,7 +516,7 @@
         <div class="navbar-title">媽媽生日專區 💗</div>
         <nav class="nav-links">
             <a data-section="home">首頁</a>
-            <a data-section="warm">暖心提醒</a>
+            <a data-section="warm">吃</a> <!-- 暖心提醒 -->
             <a data-section="mood">心情測驗</a>
             <a data-section="python-first">第一個程式</a>
             <a data-section="game">小遊戲</a>
@@ -539,8 +539,10 @@
                         <div class="tag">HAPPY BIRTHDAY 🎂</div>
                         <h1>媽媽生日快樂！</h1>
                         <p>
-                            哈囉媽媽!歡迎來到"媽媽生日網站"。<br />
-                            請依序點選上方的選單~ 每一個按鈕都可以按按看(有些可重複按)!或許會有驚喜呦。<br />
+                            哈囉媽媽! 歡迎來到"媽媽生日網站"。<br />
+                            請依序點選上方的選單~ <br />
+                            每一個按鈕都可以按按看(有些可重複按)!<br />
+                            或許會有驚喜呦。<br />
                             這裡不只是妳的生日卡片，妳也會進行第一次的coding!<br />
                             事不宜遲我們開始吧 耶耶耶! Happy Learning!<br />
                         </p>
@@ -556,14 +558,14 @@
             </div>
         </section>
 
-        <!-- 暖心提醒 -->
+        <!-- 吃 -->
         <section id="warm" class="section">
             <div class="container">
                 <div class="card">
-                    <div class="section-label">section 1 · warm words</div>
-                    <h2>💛 今天的暖心提醒</h2>
-                    <p>按下按鈕，隨機收到一小句，專門寫給媽媽的話。</p>
-                    <button class="btn" onclick="showWarmMessage()">給我一句話 ✨</button>
+                    <div class="section-label">section 1 · Food</div>
+                    <h2>&#x1F354; 今天要吃什麼?</h2>
+                    <p>Um...妹妹想吃地瓜球\Louisa的米漢堡\再來個宜蘭的cheese cake</p>
+                    <button class="btn" onclick="showWarmMessage()">點我!我幫妳決定今日菜單 ✨</button>
                     <div id="warmMessage" style="margin-top:16px;font-size:16px;color:#5a2b40;"></div>
                 </div>
             </div>
@@ -738,7 +740,7 @@
 
     <div class="footer-note">
         這個網站是 YoYo 用 GitHub Pages 做的。<br />
-        不管我在哪裡，打開這個網址，就等於在跟妳說「我在想妳」。
+        2025.11.29
     </div>
 
     <!-- 生日驚喜 Overlay -->
@@ -805,13 +807,13 @@
 
         // 暖心提醒
         const warmMessages = [
-            "妳今天已經做得很好了，可以休息一下沒關係。💛",
-            "妳不需要完美，已經夠好了，真的。🌷",
-            "喝口水、深呼吸一下，世界可以暫停一點點。🌿",
-            "不管別人怎麼看，妳值得被溫柔對待，包括妳自己。💗",
-            "慢慢來就好，不用急著追上任何人。🕊️",
-            "有情緒是很正常的，妳不需要對自己的感受感到抱歉。🤍",
-            "謝謝妳沒有放棄自己，這件事很了不起。✨"
+            "兩顆荷包蛋+十個薯餅+蚵仔煎+一杯奶茶+牛肉麵 🍳",
+            "麥片牛奶+pizza+零食? 好像飽了ㄟ🥛",
+            "今天只喝水+吃青菜🥦",
+            "生菜沙拉+壽司+味增湯+烤鮭魚🦐",
+            "我想不到要吃什麼了 好糾結🕊️",
+            "吃冷凍水餃 還是自己包的比較好吃吧🥟",
+            "韓式拌飯+火鍋+三杯雞+滷味🍲"
         ];
 
         function showWarmMessage() {
@@ -820,7 +822,7 @@
         }
         
         function showSillyMessage() {
-            const message = "哈哈哈 媽媽妳被騙了這個按紐沒有用處ㄛ";
+            const message = "哈哈哈 媽媽妳被騙了 這個按紐沒有用處ㄛ 請前往下一關";
 
             let box = document.getElementById("homeFixedMessage");
     
@@ -1022,6 +1024,7 @@
     </script>
 </body>
 </html>
+
 
 
 
