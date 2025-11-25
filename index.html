@@ -768,7 +768,7 @@
                 打開這個小禮物的同時，也希望妳可以對自己更溫柔一點。💗
             </p>
             <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; justify-content:center;">
-                <button class="btn-secondary" onclick="toggleMusic()">🎼 播放/暫停 生日快樂鋼琴</button>
+                <button class="btn-secondary" onclick="openYouTube()">🎼 播放音樂（開啟 YouTube）</button>
                 <button class="btn" onclick="toggleHiddenMessage()">💌 看 YoYo 的隱藏訊息</button>
             </div>
             <div id="hiddenMessage" class="hidden-message">
@@ -949,15 +949,6 @@
             hiddenMessage.style.display = "none";
         }
 
-        function toggleMusic() {
-            if (!birthdayMusic) return;
-            if (musicPlaying) {
-                birthdayMusic.pause();
-                musicPlaying = false;
-            } else {
-                birthdayMusic.play().then(() => { musicPlaying = true; }).catch(() => {});
-            }
-        }
 
         function toggleHiddenMessage() {
             if (hiddenMessage.style.display === "block") {
@@ -966,6 +957,11 @@
                 hiddenMessage.style.display = "block";
             }
         }
+
+        function openYouTube() {
+            window.open("https://www.youtube.com/watch?v=R4xv8VXbxDE", "_blank");
+        }
+
 
         // 飄花瓣效果（進站約 10 秒）
         function startPetals(durationMs = 10000) {
@@ -1007,3 +1003,4 @@
     </script>
 </body>
 </html>
+
