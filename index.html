@@ -506,13 +506,14 @@
             }
         }
         /* Flipbook 相簿 */
-            .flipbook {
-                width: 100%;
-            height: 400px;
+        .flipbook {
+            width: 100%;
+            height: 550px;   /* ⭐ 調高，適合手機/電腦/直式照片 */
             margin: 20px auto;
             position: relative;
             perspective: 2000px;
         }
+
 
         .flipbook .page {
             width: 100%;
@@ -532,8 +533,9 @@
 
         .flipbook .page img {
             width: 100%;
-            height: 330px;
-            object-fit: cover;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 16px;
         }
 
         .flipbook .page p {
@@ -562,12 +564,14 @@
         /* 手機調整 */
         @media (max-width: 600px) {
             .flipbook {
-                height: 320px;
+                height: 420px;
             }
             .flipbook .page img {
-                height: 260px;
+                height: 100%;
+                object-fit: contain;
             }
         }
+
 
     </style>
 </head>
@@ -581,7 +585,7 @@
         <nav class="nav-links">
             <a data-section="home">首頁</a>
             <a data-section="warm">吃</a> <!-- 暖心提醒 -->
-            <a data-section="mood">心情測驗</a>
+            <a data-section="mood">相簿</a> <!--心情測驗 -->
             <a data-section="python-first">第一個程式</a>
             <a data-section="game">小遊戲</a>
             <a data-section="lessons">Python 入門</a>
@@ -640,20 +644,20 @@
         <section id="mood" class="section active">
             <div class="container">
                 <div class="card">
-                    <div class="section-label">section 2 · photo album</div>
-                    <h2>📖 YoYo & 媽媽的回憶相簿</h2>
-                    <p>翻翻這本相簿～每一頁都有一句 YoYo 想對媽媽說的小話 💗</p>
+                    <div class="section-label">section 3 · photo album</div>
+                    <h2>📖 媽媽 & 妹妹的回憶相簿</h2>
+                    <p>可以左右翻! 💗</p>
 
                     <!-- Flipbook 容器 -->
                     <div id="flipbook" class="flipbook">
-                        <div class="page"><img src="photo1.jpg"><p>🌸 妳的笑容，是家裡最暖的光。</p></div>
-                        <div class="page"><img src="photo2.jpg"><p>💗 這些回憶，我都好珍惜。</p></div>
-                        <div class="page"><img src="photo3.jpg"><p>🛳️ 在船上一起拍照，好幸福。</p></div>
-                        <div class="page"><img src="photo4.jpg"><p>🌈 和妳去哪裡都很開心。</p></div>
-                        <div class="page"><img src="photo5.jpg"><p>🍰 妳永遠值得被好好對待。</p></div>
-                        <div class="page"><img src="photo6.jpg"><p>✨ 妳是我心裡最柔軟的那一塊。</p></div>
-                        <div class="page"><img src="photo7.jpg"><p>🤍 希望妳每天都過得安心。</p></div>
-                        <div class="page"><img src="photo8.jpg"><p>🌷 生日快樂，我愛妳。</p></div>
+                        <div class="page"><img src="photo1.jpg"><p>🌸 韓國 2025.04.05</p></div>
+                        <div class="page"><img src="photo2.jpg"><p>💗 日本福岡 2025.04.02</p></div>
+                        <div class="page"><img src="photo3.jpg"><p>🛳️ 日本福岡 2025.04.02</p></div>
+                        <div class="page"><img src="photo4.jpg"><p>🌈 英國 2025.01.27</p></div>
+                        <div class="page"><img src="photo5.jpg"><p>🍰 突尼斯 2025.01.23</p></div>
+                        <div class="page"><img src="photo6.jpg"><p>✨ 義大利 2025.01.22</p></div>
+                        <div class="page"><img src="photo7.jpg"><p>🤍 台灣 2024.07.14</p></div>
+                        <div class="page"><img src="photo8.jpg"><p>🌷 高雄 2023.07.21</p></div>
                     </div>
                 </div>
             </div>
@@ -1071,6 +1075,7 @@
     </script>
 </body>
 </html>
+
 
 
 
